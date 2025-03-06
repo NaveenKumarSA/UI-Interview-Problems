@@ -1,0 +1,46 @@
+import { useState, useEffect } from "react";
+
+// To run this copy paste the ccode to code sandbox and run 
+
+export default function App() {
+  const [timer, setTimer] = useState(0);
+  const [timerValue, setTimerValue] = useState(0);
+
+  const triggerTimer = (timerValue) => {
+    setTimer(timerValue);
+  };
+
+  useEffect(() => {
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer(timer - 1);
+      }, 1000); //1 second
+    }
+    return () => clearTimeout(interval);
+  }, [timer]);
+
+  return (
+    <>
+      <div
+        className=""
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          height: "100vh",
+        }}
+      >
+        <input
+          placeholder="Time in seconds "
+          onChange={(e) => setTimerValue(e.target.value)}
+        />
+        <h2>Remaining Time: {timer} </h2>
+        <button onClick={() => triggerTimer(timerValue)} disabled={timer > 0}>
+          Start Timer
+        </button>
+      </div>
+    </>
+  );
+}
